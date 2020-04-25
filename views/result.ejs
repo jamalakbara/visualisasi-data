@@ -1,0 +1,115 @@
+<!--
+  In the following URLs you may want to replace @latest by @version
+  to prevent unexpected potentionally breaking updates.
+  For example vis-data@1.0.0 instead of vis-data@latest.
+-->
+<script type="text/javascript" src="https://unpkg.com/moment@latest"></script>
+<script type="text/javascript" src="https://unpkg.com/vis-data@latest"></script>
+<script
+  type="text/javascript"
+  src="https://unpkg.com/vis-timeline@latest/peer/umd/vis-timeline-graph2d.min.js"
+></script>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://unpkg.com/vis-timeline/styles/vis-timeline-graph2d.min.css"
+/>
+<!-- You may include other packages like Vis Network or Vis Graph3D here. -->
+<!-- You can optionally include locales for Moment if you need any. -->
+
+<input type="text" id="search" />
+<div id="visualization"></div>
+<!-- <script type="text/javascript">
+  // DOM element where the Timeline will be attached
+  const container = document.getElementById("visualization");
+
+  // Create a DataSet (allows two way data-binding)
+  const items = new vis.DataSet([
+    { id: 1, content: "item 1", start: "2014-04-20" },
+    { id: 2, content: "item 2", start: "2014-04-14" },
+    { id: 3, content: "item 3", start: "2014-04-18" },
+    { id: 4, content: "item 4", start: "2014-04-16", end: "2014-04-19" },
+    { id: 5, content: "item 5", start: "2014-04-25" },
+    { id: 6, content: "item 6", start: "2014-04-27", type: "point" },
+  ]);
+
+  // Configuration for the Timeline
+  const options = {};
+
+  // Create a Timeline
+  const timeline = new vis.Timeline(container, items, options);
+</script> -->
+
+<script>
+  let gerubs = <%- JSON.stringify(groups) %>;
+  let aitems = <%- JSON.stringify(items) %>;
+  // console.log(aitems);
+
+  // create visualization
+  const container = document.getElementById("visualization");
+  let options = {
+    groupOrder: "content", // groupOrder can be a property name or a sorting function
+  };
+
+  let timeline = new vis.Timeline(container);
+  timeline.setOptions(options);
+  timeline.setGroups(gerubs);
+  timeline.setItems(aitems);
+
+  timeline.on('select', function (properties) {
+    console.log(properties)
+    aitems.forEach(item => {
+      if (item.id == properties.items){
+        alert(item.content)
+      }
+    });
+  });
+</script>
+
+<script>
+  const search = document.getElementById("search");
+
+  search.addEventListener("keyup", () => {
+    let searchVal = search.value.toUpperCase();
+
+    let items = [...aitems];
+
+    let contentItems;
+    items = items.filter((item) => {
+      contentItems = JSON.parse(item.content);
+      contentItems = contentItems.filter((ci) => {
+        if (ci.text) {
+          if (ci.text.toUpperCase().indexOf(searchVal) > -1) {
+            return true;
+          }
+        }
+      });
+      contentItems = JSON.stringify(contentItems);
+      // console.log(contentItems);
+      return contentItems != "[]";
+    });
+
+    console.log(items[0].id);
+    if (container.childNodes.length > 0) {
+      let child = container.lastElementChild;
+      while (child) {
+        container.removeChild(child);
+        child = container.lastElementChild;
+      }
+    }
+
+    timeline = new vis.Timeline(container);
+    timeline.setOptions(options);
+    timeline.setGroups(gerubs);
+    timeline.setItems(items);
+
+    timeline.on("select", function (properties) {
+      console.log(properties);
+      aitems.forEach((item) => {
+        if (item.id == properties.items) {
+          alert(item.content);
+        }
+      });
+    });
+  });
+</script>
