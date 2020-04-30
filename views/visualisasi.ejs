@@ -3,103 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>WHATSAPP CHAT VISUALIZER</title>
+    <link rel="stylesheet" href="/public/css/style.css" />
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/moment@latest"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/vis-data@latest"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/vis-timeline@latest/peer/umd/vis-timeline-graph2d.min.js"
+    ></script>
     <link
       rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
+      type="text/css"
+      href="https://unpkg.com/vis-timeline/styles/vis-timeline-graph2d.min.css"
     />
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/public/css/style.css" />
   </head>
   <body>
-    <div
-      class="chrt-cntnr container-fluid d-flex justify-content-center align-items-center flex-column"
-    >
-      <div class="row mb-2">
-        <div class="col-md-12">
-          <h1>Here's Your Data</h1>
+    <div class="main-vis">
+      <div class="vis">
+        <div class="search">
+          <span
+            class="material-icons input-group-text"
+            id="inputGroup-sizing-default"
+          >
+            search
+          </span>
+          <input type="text" id="search" />
         </div>
+        <div id="visualization"></div>
       </div>
-      <div class="row mb-2 search mr-1">
-        <div class="col-md-12">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span
-                class="material-icons input-group-text"
-                id="inputGroup-sizing-default"
-              >
-                find_in_page
-              </span>
-            </div>
-            <input
-              type="text"
-              class="form-control"
-              aria-label="Default"
-              aria-describedby="inputGroup-sizing-default"
-              id="for-search"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="prnt-chrt col-md-12">
-          <div class="chart" id="chart"></div>
-        </div>
+      <div class="modal" style="display: none;">
+        <div class="modal__box"></div>
       </div>
     </div>
-
-    <script src="//unpkg.com/timelines-chart"></script>
-
+    <script></script>
     <script>
-      const myChart = TimelinesChart();
-      const chart = document.getElementById("chart");
-      const data = <%-JSON.stringify(data)%>;
-
-      // console.log(data)
-
-      myChart(chart)
-        .zQualitative(true)
-        .width(1500)
-        .data(data);
+      let gerubs = <%- JSON.stringify(groups) %>;
+      let aitems = <%- JSON.stringify(items) %>;
     </script>
 
-    <script>
-      let search = document.getElementById("for-search");
-      let searchData;
-      search.addEventListener("keyup", () => {
-        searchValue = search.value.toUpperCase();
-        searchData = [...data];
-        searchData = searchData.filter((datum) => {
-          datum.data = datum.data.filter((element) => {
-            element.data = element.data.filter((isi) => {
-              isi.realVal = isi.realVal.filter((chat) => {
-                if (chat.text) {
-                  return chat.text.toUpperCase().indexOf(searchValue) > -1;
-                }
-              });
-              isi.val = [...isi.realVal];
-              isi.val = JSON.stringify(isi.val);
-              // console.log(isi);
-              return isi.val != "[]";
-            });
-            return element.data.length > 0;
-          });
-          return datum.data.length > 0;
-        });
-        if (chart.childNodes.length > 0) {
-          let child = chart.lastElementChild;
-          while (child) {
-            chart.removeChild(child);
-            child = chart.lastElementChild;
-          }
-        }
-        myChart(chart).zQualitative(true).width(1500).data(searchData);
-      });
-    </script>
+    <script src="/public/js/visualisasi.js"></script>
   </body>
 </html>

@@ -2,112 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WHATSAPP CHAT VISUALIZER</title>
     <link rel="stylesheet" href="/public/css/style.css" />
-    <title>Document</title>
   </head>
   <body>
-    <div class="content">
-      <div class="container" style="margin-left: 50px; margin-right: 50px;">
-        <div class="row">
-          <div class="col-md-6" style="margin-top: 100px;">
-            <div class="header-text-area">
-              <h1>Whatsapp Chat Visualizer</h1>
-              <h6 style="color: white;">
-                Convert your structured data into Timeline Visualization
-              </h6>
-            </div>
-          </div>
-        </div>
-        <div
-          class="col-md-6"
-          style="position: relative; bottom: -50px; right: -800px;"
+    <div class="container">
+      <div class="title">
+        <h1>whatsapp chat visualizer</h1>
+        <p>Convert your structured data into Timeline Visualization</p>
+      </div>
+      <div class="upload">
+        <form
+          action="/vis"
+          method="POST"
+          enctype="multipart/form-data"
+          class="upload__form"
         >
-          <div
-            class="wrapper d-flex flex-column justify-content-center"
-            style="border-radius: 14px;"
-          >
-            <h5 style="color: #330000;">Upload a .csv file</h5>
-            <form method="POST" action="/vis" enctype="multipart/form-data">
-              <div class="custom-file">
-                <input
-                  type="file"
-                  class="custom-file-input"
-                  id="customFile"
-                  name="dataset"
-                />
-                <label class="custom-file-label" for="customFile"
-                  >Choose file</label
-                >
-              </div>
-              <button
-                class="btn text-white"
-                type="submit"
-                style="
-                  margin: 1em 0;
-                  padding: 10px 215px;
-                  border-radius: 28px;
-                  background-color: #330000;
-                "
-              >
-                Submit
-              </button>
-              <h6 class="text-dark">
-                After you uploaded the file, we will process the data and show
-                you the timeline visual
-              </h6>
-            </form>
-            <!-- <form
-              class="input"
-              style="margin-top: 20px;"
-              method="POST"
-              action="/vis"
-              enctype="multipart/form-data"
-            >
-              <div class="input-group">
-                <div class="custom-file">
-                  <input
-                    type="file"
-                    class="custom-file-input"
-                    id="inputGroupFile04"
-                    aria-describedby="inputGroupFileAddon04"
-                    name="dataset"
-                  />
-                  <label class="custom-file-label" for="inputGroupFile04"
-                    >Choose file</label
-                  >
-                </div>
-              </div>
-              <br />
-              <button
-                class="btn"
-                type="submit"
-                style="
-                  padding: 10px 215px;
-                  border-radius: 28px;
-                  background-color: #330000;
-                  color: white;
-                "
-              >
-                Submit</button
-              ><br />
-              <h6 style="color: #330000; margin-top: 20px;">
-                After you uploaded the file, we will process the data and show
-                you the timeline visual
-              </h6>
-            </form> -->
-          </div>
-        </div>
+          <label for="input-upload">Upload a CSV file</label>
+          <input type="file" name="dataset" id="input-upload" />
+          <button type="submit" class="btn-submit">submit</button>
+        </form>
+        <small class="upload__ket">
+          After you uploaded the file, we will process the data and show you the
+          timeline visual
+        </small>
       </div>
     </div>
   </body>
