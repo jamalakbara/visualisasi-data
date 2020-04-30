@@ -39,18 +39,20 @@
           </span>
           <input type="text" id="search" />
         </div>
+        <div class="head">
+          <p>contact name</p>
+          <p>timeline</p>
+        </div>
         <div id="visualization"></div>
       </div>
       <div class="modal" style="display: none;">
         <div class="modal__box"></div>
       </div>
     </div>
-    <script></script>
     <script>
       let gerubs = <%- JSON.stringify(groups) %>;
       let aitems = <%- JSON.stringify(items) %>;
     </script>
-
-    <script src="/public/js/visualisasi.js"></script>
+    <script src="/public/js/visual.js"></script>
   </body>
 </html>

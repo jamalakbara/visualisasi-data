@@ -1,12 +1,6 @@
-let modal = document.querySelector(".modal__box");
-let modalParent = document.querySelector(".modal");
-
-const container = document.getElementById("visualization");
 const search = document.getElementById("search");
-
-let options = {
-  groupOrder: "content", // groupOrder can be a property name or a sorting function
-};
+const modalParent = document.querySelector(".modal");
+const modal = document.querySelector(".modal__box");
 
 const showModal = (modalParent, modal, item, gerubs) => {
   if (modal.childNodes.length > 0) {
@@ -17,7 +11,7 @@ const showModal = (modalParent, modal, item, gerubs) => {
     }
   }
 
-  JSON.parse(item.content).forEach((e) => {
+  JSON.parse(item.fullContent).forEach((e) => {
     // console.log(e)
 
     let divIsi = document.createElement("div");
@@ -39,7 +33,7 @@ const showModal = (modalParent, modal, item, gerubs) => {
         ? "Saya"
         : e.remoteResourceDisplayName
         ? e.remoteResourceDisplayName
-        : gerubs[item.id].content
+        : gerubs[item.id].fullContent
     );
     p.appendChild(pText);
 
@@ -57,32 +51,32 @@ const showModal = (modalParent, modal, item, gerubs) => {
   modalParent.classList.add("show");
 };
 
-const createVisual = (container, options, gerubs, aitems) => {
-  let timeline = new vis.Timeline(container);
-  timeline.setOptions(options);
-  timeline.setGroups(gerubs);
-  timeline.setItems(aitems);
+// create visualization
+const container = document.getElementById("visualization");
 
-  timeline.on("select", function (properties) {
-    // console.log(properties)
-    aitems.forEach((item) => {
-      if (item.id == properties.items) {
-        showModal(modalParent, modal, item, gerubs);
-      }
-    });
-  });
+let options = {
+  groupOrder: "content", // groupOrder can be a property name or a sorting function
 };
 
-createVisual(container, options, gerubs, aitems);
+let timeline = new vis.Timeline(container);
+timeline.setOptions(options);
+timeline.setGroups(gerubs);
+timeline.setItems(aitems);
+timeline.on("select", function (properties) {
+  console.log(properties);
+  aitems.forEach((item) => {
+    if (item.id == properties.items) {
+      showModal(modalParent, modal, item, gerubs);
+    }
+  });
+});
 
 search.addEventListener("keyup", () => {
   let searchVal = search.value.toUpperCase();
-
   let items = [...aitems];
-
   let contentItems;
   items = items.filter((item) => {
-    contentItems = JSON.parse(item.content);
+    contentItems = JSON.parse(item.fullContent);
     contentItems = contentItems.filter((ci) => {
       if (ci.text) {
         if (ci.text.toUpperCase().indexOf(searchVal) > -1) {
@@ -94,8 +88,7 @@ search.addEventListener("keyup", () => {
     // console.log(contentItems);
     return contentItems != "[]";
   });
-
-  // console.log(items[0].id);
+  console.log(items[0].id);
   if (container.childNodes.length > 0) {
     let child = container.lastElementChild;
     while (child) {
@@ -103,8 +96,18 @@ search.addEventListener("keyup", () => {
       child = container.lastElementChild;
     }
   }
-
-  createVisual(container, options, gerubs, aitems);
+  timeline = new vis.Timeline(container);
+  timeline.setOptions(options);
+  timeline.setGroups(gerubs);
+  timeline.setItems(items);
+  timeline.on("select", function (properties) {
+    console.log(properties);
+    aitems.forEach((item) => {
+      if (item.id == properties.items) {
+        showModal(modalParent, modal, item, gerubs);
+      }
+    });
+  });
 });
 
 modalParent.addEventListener("click", () => {

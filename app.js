@@ -45,7 +45,12 @@ app.post("/vis", (req, res) => {
                 // bikin item buat isian grupnya
                 items.push({
                   id: i,
-                  content: JSON.stringify(jc.messages),
+                  content: `${new Date(
+                    jc.messages[0].timestamp
+                  ).toLocaleDateString()} - ${new Date(
+                    jc.messages[jc.messages.length - 1].timestamp
+                  ).toLocaleDateString()}`,
+                  fullContent: JSON.stringify(jc.messages),
                   group: i,
                   start: new Date(jc.messages[0].timestamp),
                   end: new Date(jc.messages[jc.messages.length - 1].timestamp),
